@@ -89,10 +89,6 @@ Options:
 └── requirements.txt             # Project dependencies
 ```
 
-## Training Results
-
-The model was trained on the WikiText-2 dataset (~86M tokens) using an A100 GPU. Training achieved a validation loss of 0.384 after approximately 8,500 steps.
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

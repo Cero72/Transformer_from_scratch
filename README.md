@@ -14,14 +14,6 @@ This repository contains my implementation of a Transformer-based language model
 
 - **Text Generation**: Implemented various decoding strategies (greedy, temperature sampling, top-k, nucleus sampling) and observed their effects on text quality and diversity.
 
-## Model Architecture
-
-I experimented with different configurations and settled on:
-- 300-dimensional embeddings (GloVe pretrained)
-- 6 attention heads
-- 4 transformer layers
-- ~27M parameters
-
 ## Results
 
 Training on the WikiText-2 dataset (~86M tokens) on an A100 GPU:

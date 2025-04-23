@@ -1,99 +1,50 @@
-# Transformer Language Model
+# Building a Transformer from Scratch
 
-A PyTorch implementation of a Transformer-based autoregressive language model. This project includes a complete implementation of the Transformer architecture with self-attention mechanisms, positional encodings, and support for pretrained embeddings.
+This repository contains my implementation of a Transformer-based language model built from scratch using PyTorch. The goal was to understand the inner workings of Transformer models by implementing every component myself rather than using existing libraries.
 
-## Features
+## What I Learned
 
-- **Autoregressive Transformer**: Implementation of a decoder-only Transformer model for language modeling
-- **Attention Mechanisms**: Multi-head self-attention with masking for autoregressive generation
-- **Pretrained Embeddings**: Support for loading pretrained word embeddings (e.g., GloVe)
-- **Positional Encodings**: Sinusoidal position embeddings as described in "Attention Is All You Need"
-- **Text Generation**: Sampling strategies including temperature scaling, top-k, and nucleus (top-p) sampling
+- **Attention Mechanisms**: Implemented scaled dot-product attention and multi-head attention, gaining a deep understanding of how self-attention works and why it's so effective for capturing long-range dependencies.
+
+- **Positional Encodings**: Built sinusoidal position embeddings to give the model information about token positions, since attention has no inherent sense of order.
+
+- **Training Dynamics**: Discovered the importance of learning rate scheduling, gradient clipping, and proper initialization for stable training of deep Transformer networks.
+
+- **Embedding Techniques**: Experimented with different embedding strategies including random initialization and pretrained GloVe vectors, learning how to integrate external knowledge into neural networks.
+
+- **Text Generation**: Implemented various decoding strategies (greedy, temperature sampling, top-k, nucleus sampling) and observed their effects on text quality and diversity.
 
 ## Model Architecture
 
-- Embedding dimension: 300
-- Attention heads: 6
-- Transformer layers: 4
-- Parameters: ~27M
+I experimented with different configurations and settled on:
+- 300-dimensional embeddings (GloVe pretrained)
+- 6 attention heads
+- 4 transformer layers
+- ~27M parameters
 
-## Getting Started
+## Results
 
-### Prerequisites
-
-- Python 3.8+
-- PyTorch 1.10+
-- NumPy
-
-### Installation
-
-```bash
-git clone https://github.com/yourusername/transformer-language-model.git
-cd transformer-language-model
-pip install -r requirements.txt
-```
+Training on the WikiText-2 dataset (~86M tokens) on an A100 GPU:
+- Reached validation loss of 0.384 after ~8,500 steps
+- Training took approximately 1-2 hours
+- Generated text shows coherent structure but still exhibits some repetition patterns
 
 ## Usage
 
 ### Training
-
-To train the model on your own text dataset:
-
 ```bash
-python train.py --train_file data/train.txt --valid_file data/valid.txt --output_dir checkpoints
+python train.py --train_file data/train.txt --valid_file data/valid.txt
 ```
 
-Options:
-
-```
---vocab_size      Size of vocabulary (default: 30000)
---d_model         Model dimension (default: 300)
---num_heads       Number of attention heads (default: 6)
---num_layers      Number of transformer layers (default: 4)
---dropout         Dropout rate (default: 0.1)
---batch_size      Batch size (default: 16)
---epochs          Number of epochs (default: 10)
---learning_rate   Learning rate (default: 5e-5)
---embedding_path  Path to pretrained embeddings file (optional)
---quick_test      Run in quick test mode with reduced dataset
-```
-
-### Text Generation
-
-To generate text using a trained model:
-
+### Generation
 ```bash
-python generate.py --model_path checkpoints/best_model.pt --tokenizer_path checkpoints/tokenizer.json --prompt "The history of artificial intelligence"
+python generate.py --model_path checkpoints/best_model.pt --prompt "The history of"
 ```
 
-Options:
+## Key Takeaways
 
-```
---interactive    Run in interactive mode to input multiple prompts
---temperature    Sampling temperature (default: 0.7)
---top_k          Top-k sampling parameter (default: 40)
---top_p          Top-p sampling parameter (default: 0.9)
---max_length     Maximum length of generated text (default: 100)
-```
-
-## Project Structure
-
-```
-├── attention.py                 # Attention mechanisms implementation
-├── autoregressive_attention.py  # Autoregressive decoder block
-├── autoregressive_model.py      # Autoregressive transformer model
-├── embedding_layer.py           # Embedding layer with positional encodings
-├── tokenizer.py                 # Tokenizer implementation
-├── train.py                     # Training script
-├── generate.py                  # Text generation script
-└── requirements.txt             # Project dependencies
-```
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - The original Transformer paper
-- [GloVe: Global Vectors for Word Representation](https://nlp.stanford.edu/projects/glove/) - Pretrained word embeddings
+Building this model helped me understand that:
+1. The "magic" of Transformers comes from their ability to process all tokens in parallel while still modeling relationships between any pair of tokens
+2. Attention is computationally expensive but incredibly powerful for modeling sequences
+3. Even a relatively small Transformer can learn meaningful patterns with the right training approach
+4. The biggest challenges were in the implementation details - proper masking, correct dimensionality, and stable training

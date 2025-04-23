@@ -1,0 +1,52 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Test files
+test_*.py
+testing.py
+
+# Data files
+data/
+pretrained_embeddings/
+
+# Model checkpoints
+model_checkpoints/
+checkpoints/
+
+# Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Logs
+*.log
+
+# SSH keys and credentials
+*.pem
+
+# Miscellaneous
+*.zip
+.DS_Store
